@@ -23,8 +23,11 @@ class StatusController extends Controller
     public function __invoke(): View
     {
         $usuario = auth('integrante')->user();
-        abort_unless(config('app.debug') || ($usuario && $usuario->can('cadastros-globais')), 403,
-            'A página de status só fica disponível com APP_DEBUG=true ou para presidente/vice logado.');
+        abort_unless(
+            config('app.debug') || ($usuario && $usuario->can('cadastros-globais')),
+            403,
+            'A página de status só fica disponível com APP_DEBUG=true ou para presidente/vice logado.'
+        );
 
         $erro = null;
         $info = [];

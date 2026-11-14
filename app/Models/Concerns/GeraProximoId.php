@@ -19,7 +19,7 @@ trait GeraProximoId
      */
     public static function proximoId(): int
     {
-        $modelo = new static;
+        $modelo = new static();
 
         $maior = DB::table($modelo->getTable())
             ->lockForUpdate()
@@ -35,7 +35,7 @@ trait GeraProximoId
     public static function criarComNovoId(array $atributos): static
     {
         return DB::transaction(function () use ($atributos) {
-            $modelo = new static;
+            $modelo = new static();
             $modelo->fill($atributos);
             $modelo->{$modelo->getKeyName()} = static::proximoId();
             $modelo->save();

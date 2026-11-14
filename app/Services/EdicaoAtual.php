@@ -17,6 +17,8 @@ class EdicaoAtual
 
     private bool $carregada = false;
 
+    private ?Collection $todas = null;
+
     public function get(): ?Comissao
     {
         if (! $this->carregada) {
@@ -48,6 +50,6 @@ class EdicaoAtual
     /** @return Collection<int, Comissao> */
     public function todas(): Collection
     {
-        return Comissao::query()->recentesPrimeiro()->get(['id_comissao', 'edicao', 'data_inicio', 'nome_evento']);
+        return $this->todas ??= Comissao::query()->recentesPrimeiro()->get(['id_comissao', 'edicao', 'data_inicio', 'nome_evento']);
     }
 }

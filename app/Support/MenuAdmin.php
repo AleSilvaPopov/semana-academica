@@ -47,7 +47,7 @@ class MenuAdmin
             [
                 'grupo' => 'Sistema',
                 'itens' => [
-                    ['rota' => 'status', 'rotulo' => 'Status do banco', 'icone' => 'server', 'ativo' => 'status'],
+                    ['rota' => 'status', 'rotulo' => 'Status do banco', 'icone' => 'server', 'ativo' => 'status', 'pode' => 'ver-status'],
                 ],
             ],
         ];
