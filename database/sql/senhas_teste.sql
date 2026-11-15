@@ -9,10 +9,8 @@
 -- Senha de TODOS os usuários abaixo:  semana2026
 --
 -- Rode DEPOIS do script.sql (ou do script_deploy.sql). Não altera nenhuma estrutura.
--- Em hospedagem compartilhada, apague a linha "USE" se o banco tiver outro nome.
+-- Selecione o banco antes (mysql ... semana_academica < arquivo.sql, ou phpMyAdmin).
 -- =====================================================================
-
-USE semana_academica;
 
 -- ---------------- Painel da organização (login por RGA) ----------------
 -- Presidente da 10ª edição (2026)

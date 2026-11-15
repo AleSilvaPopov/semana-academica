@@ -14,6 +14,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Atrás do proxy HTTPS da hospedagem (Railway, Cloudflare...): confia nos cabeçalhos
+        // X-Forwarded-* para gerar URLs com https e obter o IP real do visitante.
+        $middleware->trustProxies(at: '*');
+
         // Visitante sem login: manda para o login da área certa.
         $middleware->redirectGuestsTo(
             fn (Request $request) => $request->is('admin', 'admin/*') ? route('admin.login') : route('portal.login')

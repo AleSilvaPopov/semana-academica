@@ -28,6 +28,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Carbon::setLocale('pt_BR');
+
+        // Em produção todas as URLs geradas usam https.
+        if ($this->app->isProduction()) {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
         Paginator::defaultView('components.paginacao');
 
         // Driver "sha256" usado pelos providers de config/auth.php (senhas SHA-256 do banco).

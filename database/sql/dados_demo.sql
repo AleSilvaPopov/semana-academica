@@ -8,10 +8,8 @@
 -- trigger ou view é alterada.
 --
 -- Rode UMA vez, depois do script.sql (ou script_deploy.sql) e do senhas_teste.sql.
--- Em hospedagem compartilhada, apague a linha "USE" se o banco tiver outro nome.
+-- Selecione o banco antes (mysql ... semana_academica < arquivo.sql, ou phpMyAdmin).
 -- =====================================================================
-
-USE semana_academica;
 
 -- A 10ª edição terminou: encerra as coordenações dela (estavam com término NULL).
 -- Assim cada tarefa nova fica associada a uma única coordenação (a da 11ª edição).
