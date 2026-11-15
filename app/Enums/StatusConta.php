@@ -20,6 +20,16 @@ enum StatusConta: string
         };
     }
 
+    /** Concordância com "conta" (feminino): "Sua conta está bloqueada". */
+    public function daConta(): string
+    {
+        return match ($this) {
+            self::Ativo => 'ativa',
+            self::Inativo => 'inativa',
+            self::Bloqueado => 'bloqueada',
+        };
+    }
+
     public function cor(): string
     {
         return match ($this) {

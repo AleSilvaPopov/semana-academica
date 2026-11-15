@@ -28,7 +28,7 @@ class InscricaoService
             $atividade = Atividade::whereKey($atividade->id_atividade)->lockForUpdate()->firstOrFail();
 
             if (! $participante->podeEntrar()) {
-                throw new RegraNegocioException('A conta deste participante está '.mb_strtolower($participante->status_conta->rotulo()).' e não pode se inscrever.');
+                throw new RegraNegocioException('A conta deste participante está '.$participante->status_conta->daConta().' e não pode se inscrever.');
             }
 
             if (! $atividade->status->aceitaInscricao()) {

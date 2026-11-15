@@ -1,12 +1,13 @@
-# Semana Acadêmica de Computação da UFGD — Sistema Web
+# Semana Integrada de Computação — Sistema Web
 
-Sistema de gestão da **Semana Acadêmica de Computação da UFGD**, construído sobre o banco
+Sistema de gestão da **Semana Integrada de Computação** (UFGD · UEMS), construído sobre o banco
 `semana_academica` (MySQL 8, 20 tabelas em 3FN, 2 triggers, 1 view e 8 índices).
 
 | | |
 |---|---|
-| **Sistema publicado** | `https://Semana-Acadêmica-de-Computação.up.railway.app` *(preencher após o deploy)* |
-| **Repositório** | `https://github.com/AleSilvaPopov/semana-academica` *(preencher)* |
+| **Sistema publicado** | *a preencher após o deploy (seção 10.2, passo 7)* |
+| **Repositório** | <https://github.com/AleSilvaPopov/semana-academica> (tags `v1-parte1` … `v4-parte4`) |
+| **Vídeo de apresentação** | *a preencher após a gravação (roteiro na seção 12.2)* |
 | **Banco** | [`database/sql/script.sql`](database/sql/script.sql) (original, sem alterações) |
 | **Autores** | Gabriel Fabricio Meirelles Peu e Alexandre da Silva Popov |
 
@@ -113,7 +114,7 @@ php artisan senha:definir participante gabriela.prado11@gmail.com nova_senha
 
 ```bash
 # 1. Clonar
-git clone https://github.com/SEU-USUARIO/semana-academica.git
+git clone https://github.com/AleSilvaPopov/semana-academica.git
 cd semana-academica
 
 # 2. Dependências
@@ -381,11 +382,11 @@ Fontes:
    O MySQL Workbench também serve: crie uma conexão com esses dados e abra cada script.
 5. No serviço da **aplicação**, aba *Variables*, cadastre (use *Raw Editor* para colar tudo de uma vez):
    ```ini
-   APP_NAME="Semana Acadêmica de Computação"
+   APP_NAME="Semana Integrada de Computação"
    APP_ENV=production
    APP_DEBUG=false
    APP_KEY=base64:...            # gere localmente: php artisan key:generate --show
-   APP_URL=https://SEU-PROJETO.up.railway.app
+   APP_URL=https://semana-academica-production.up.railway.app   # troque pelo domínio gerado no passo 7
    APP_TIMEZONE=America/Campo_Grande
    APP_LOCALE=pt_BR
    APP_FALLBACK_LOCALE=pt_BR
@@ -463,34 +464,76 @@ Fontes:
 
 ## 11. Capturas de tela
 
-> Substitua os espaços abaixo pelas imagens (ex.: salve em `docs/telas/` e use `![Dashboard](docs/telas/dashboard.png)`).
+Capturas feitas com os dados de teste (`dados_demo.sql`) e o tema visual de 2026. As imagens ficam em [`docs/telas/`](docs/telas/).
 
-| Tela | Captura |
-|---|---|
-| `/status` — conexão com o banco e contagem das 20 tabelas | *(inserir imagem)* |
-| Login do painel | *(inserir imagem)* |
-| Dashboard da edição | *(inserir imagem)* |
-| Edição com presidente/vice (formulário) | *(inserir imagem)* |
-| Atividades (listagem com inscritos/vagas) | *(inserir imagem)* |
-| Formulário de atividade com ministrantes (multi-select) | *(inserir imagem)* |
-| Integrante com telefones e e-mails (listas dinâmicas) | *(inserir imagem)* |
-| Tarefas com atrasadas destacadas / Minhas tarefas | *(inserir imagem)* |
-| Inscrições e presença (credenciamento em lote) | *(inserir imagem)* |
-| Mensagem "Não é possível excluir: existem X vinculados" | *(inserir imagem)* |
-| Portal — página inicial | *(inserir imagem)* |
-| Portal — programação (celular) | *(inserir imagem)* |
-| Portal — atividade lotada / inscrição | *(inserir imagem)* |
-| Login recusado de conta bloqueada | *(inserir imagem)* |
-| Certificado (A4 paisagem) | *(inserir imagem)* |
+**1. `/status`: conexão com o banco e contagem das 20 tabelas**
+
+![/status: conexão com o banco e contagem das 20 tabelas](docs/telas/01-status.png)
+
+**2. Login do painel**
+
+![Login do painel](docs/telas/02-login-painel.png)
+
+**3. Dashboard da edição**
+
+![Dashboard da edição](docs/telas/03-dashboard.png)
+
+**4. Edição com presidente/vice (formulário)**
+
+![Edição com presidente/vice (formulário)](docs/telas/04-edicao-form.png)
+
+**5. Atividades (listagem com inscritos/vagas)**
+
+![Atividades (listagem com inscritos/vagas)](docs/telas/05-atividades.png)
+
+**6. Formulário de atividade com ministrantes (multi-select)**
+
+![Formulário de atividade com ministrantes (multi-select)](docs/telas/06-atividade-form.png)
+
+**7. Integrante com telefones e e-mails (listas dinâmicas)**
+
+![Integrante com telefones e e-mails (listas dinâmicas)](docs/telas/07-integrante.png)
+
+**8. Tarefas com as atrasadas destacadas**
+
+![Tarefas com as atrasadas destacadas](docs/telas/08-tarefas.png)
+
+**9. Inscrições e presença (credenciamento em lote)**
+
+![Inscrições e presença (credenciamento em lote)](docs/telas/09-inscricoes.png)
+
+**10. Mensagem "Não é possível excluir: existem X vinculados"**
+
+![Mensagem "Não é possível excluir: existem X vinculados"](docs/telas/10-erro-exclusao.png)
+
+**11. Portal: página inicial**
+
+![Portal: página inicial](docs/telas/11-portal-home.png)
+
+**12. Portal: programação (celular)**
+
+![Portal: programação (celular)](docs/telas/12-programacao-celular.png)
+
+**13. Portal: atividade com poucas vagas e botão de inscrição**
+
+![Portal: atividade com poucas vagas e botão de inscrição](docs/telas/13-atividade-inscricao.png)
+
+**14. Login recusado de conta bloqueada**
+
+![Login recusado de conta bloqueada](docs/telas/14-login-bloqueado.png)
+
+**15. Certificado (A4 paisagem)**
+
+![Certificado (A4 paisagem)](docs/telas/15-certificado.png)
 
 ## 12. Entrega final
 
 ### 12.1 Checklist da entrega (N2)
 
-- [ ] **Link do repositório** (público ou com acesso para o professor) — com as tags `v1-parte1` … `v4-parte4`
+- [x] **Link do repositório** (público ou com acesso para o professor) — com as tags `v1-parte1` … `v4-parte4`
 - [ ] **URL publicada** funcionando (preenchida no topo deste README)
 - [ ] **Script do banco**: `database/sql/script.sql` (+ `script_deploy*.sql`, `senhas_teste.sql`, `dados_demo.sql`)
-- [ ] **README** com a tabela de credenciais (seção 3) e as capturas de tela (seção 11) preenchidas
+- [x] **README** com a tabela de credenciais (seção 3) e as capturas de tela (seção 11) preenchidas
 - [ ] **Vídeo** de apresentação (roteiro abaixo) — link no topo deste README
 - [ ] Conferir no ar: login dos 4 perfis do painel, participante ativo, participante bloqueado, `/status`
 

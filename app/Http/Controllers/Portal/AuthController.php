@@ -60,7 +60,7 @@ class AuthController extends Controller
         // Regra de negócio: conta inativa ou bloqueada não entra.
         if (! $participante->podeEntrar()) {
             throw ValidationException::withMessages([
-                'email' => 'Sua conta está '.mb_strtolower($participante->status_conta->rotulo()).'. Entre em contato com a organização do evento.',
+                'email' => 'Sua conta está '.$participante->status_conta->daConta().'. Entre em contato com a organização do evento.',
             ]);
         }
 
