@@ -24,7 +24,7 @@ class Identidade
     /** Atributos do <html>: desenho de fundo e esquema (claro/escuro) para os controles nativos. */
     public static function atributosHtml(): string
     {
-        $fundo = in_array(config('identidade.fundo'), ['circuitos', 'rede'], true) ? config('identidade.fundo') : 'nenhum';
+        $fundo = in_array(config('identidade.fundo'), ['grade', 'circuitos', 'rede'], true) ? config('identidade.fundo') : 'nenhum';
         $esquema = self::fundoEhClaro() ? 'light' : 'dark';
 
         return sprintf('data-fundo="%s" data-esquema="%s"', $fundo, $esquema);

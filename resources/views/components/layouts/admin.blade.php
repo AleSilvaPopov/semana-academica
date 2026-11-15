@@ -19,10 +19,10 @@
     <aside :class="menu ? 'translate-x-0' : '-translate-x-full'"
         class="fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-zinc-200 bg-superficie/95 backdrop-blur-md transition-transform lg:translate-x-0">
         <div class="flex h-16 shrink-0 items-center gap-2.5 border-b border-zinc-200 px-5">
-            @include('identidade.logo', ['classe' => 'h-8 w-11'])
+            @include('identidade.logo', ['classe' => 'size-8'])
             <div class="leading-tight">
-                <p class="font-titulo text-sm font-bold tracking-wide text-zinc-950">{{ config('identidade.sigla') }} {{ config('identidade.ano') }}</p>
-                <p class="font-mono text-[10px] tracking-[0.18em] text-zinc-500 uppercase">Painel da organização</p>
+                @include('identidade.marca', ['icone' => false, 'tamanho' => 'text-base'])
+                <p class="mt-1 font-mono text-[10px] tracking-[0.18em] text-zinc-500 uppercase">Painel da organização</p>
             </div>
         </div>
         <nav class="flex-1 overflow-y-auto px-3 py-4">

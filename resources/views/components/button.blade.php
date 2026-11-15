@@ -1,14 +1,15 @@
 @props(['variante' => 'primario', 'href' => null, 'type' => 'button', 'tamanho' => 'md', 'icone' => null])
 @php
-    $base = 'inline-flex items-center justify-center gap-1.5 rounded-lg font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-offset-fundo disabled:cursor-not-allowed disabled:opacity-50 whitespace-nowrap';
+    // Mesmo visual do UI kit (.btn-neon / .btn-outline): fonte display, caixa alta, brilho neon.
+    $base = 'inline-flex items-center justify-center gap-1.5 rounded-lg font-display font-bold uppercase tracking-wide transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-offset-fundo disabled:cursor-not-allowed disabled:opacity-50 whitespace-nowrap';
     $tamanhos = [
-        'sm' => 'px-2.5 py-1.5 text-xs',
-        'md' => 'px-3.5 py-2 text-sm',
-        'lg' => 'px-5 py-2.5 text-base',
+        'sm' => 'px-2.5 py-1.5 text-[11px]',
+        'md' => 'px-4 py-2 text-xs',
+        'lg' => 'px-6 py-3 text-sm',
     ];
     $variantes = [
-        'primario' => 'bg-brand-600 text-white shadow-[0_0_18px_-4px_var(--tema-destaque)] hover:brightness-115 hover:shadow-[0_0_24px_-2px_var(--tema-destaque)] focus-visible:ring-brand-500',
-        'secundario' => 'border border-zinc-300 bg-superficie text-zinc-800 shadow-xs hover:border-brand-400 hover:bg-zinc-100 focus-visible:ring-zinc-400',
+        'primario' => 'bg-destaque text-white shadow-[0_0_20px_-4px_var(--tema-neon)] hover:bg-neon hover:shadow-[0_0_28px_-2px_var(--tema-neon)] focus-visible:ring-neon',
+        'secundario' => 'border border-neon/40 bg-neon/5 text-zinc-950 hover:border-neon hover:shadow-[0_0_16px_-6px_var(--tema-neon)] focus-visible:ring-neon',
         'perigo' => 'bg-red-600 text-white shadow-xs hover:brightness-115 focus-visible:ring-red-500',
         'sucesso' => 'bg-emerald-600 text-white shadow-xs hover:brightness-115 focus-visible:ring-emerald-500',
         'fantasma' => 'text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 focus-visible:ring-zinc-400',

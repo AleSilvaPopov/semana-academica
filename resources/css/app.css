@@ -11,7 +11,8 @@
  * ===================================================================
  *  As cores, fontes e o fundo NÃO são definidos aqui: vêm de
  *  config/identidade.php e são injetados no <head> como variáveis
- *  (--tema-destaque, --tema-fundo, --tema-texto, --tema-fonte-*)
+ *  (--tema-destaque, --tema-neon, --tema-fundo, --tema-superficie,
+ *   --tema-texto, --tema-fonte-*)
  *  pelo partial resources/views/identidade/head.blade.php.
  *
  *  Este arquivo só DERIVA a paleta do Tailwind a partir delas:
@@ -28,11 +29,14 @@
  */
 @layer base {
     :root {
-        --tema-destaque: #e3262f;
-        --tema-fundo: #070708;
-        --tema-texto: #f2f0f0;
+        --tema-destaque: #e60000;
+        --tema-fundo: #050505;
+        --tema-texto: #f5f5f5;
+        /* Opcionais no config: sem eles, derivam do destaque e do fundo */
+        --tema-neon: color-mix(in oklab, var(--tema-destaque) 88%, white);
+        --tema-superficie: color-mix(in oklab, var(--tema-texto) 3%, var(--tema-fundo));
         --tema-brilho: 0.6;
-        --tema-fonte-titulo: Georgia, serif;
+        --tema-fonte-titulo: ui-sans-serif, system-ui, sans-serif;
         --tema-fonte-display: var(--tema-fonte-titulo);
         --tema-fonte-corpo: ui-sans-serif, system-ui, sans-serif;
         --tema-fonte-mono: ui-monospace, monospace;
@@ -45,9 +49,13 @@
     --font-titulo: var(--tema-fonte-titulo);
     --font-display: var(--tema-fonte-display);
 
-    /* Fundo dos cartões, tabelas, menus e modais (antes "white") */
-    --color-superficie: color-mix(in oklab, var(--tema-texto) 5%, var(--tema-fundo));
+    /* Tokens do UI kit (sic-bg, sic-surface, sic-red, sic-neon, sic-neon-soft) */
     --color-fundo: var(--tema-fundo);
+    --color-superficie: var(--tema-superficie);
+    --color-destaque: var(--tema-destaque);
+    --color-neon: var(--tema-neon);
+    /* Vermelho para TEXTO sobre o fundo: clareado para passar contraste 4.5:1 */
+    --color-neon-soft: color-mix(in oklab, var(--tema-neon) 74%, var(--tema-texto));
 
     /* Neutros: do fundo (50) até o texto (950) */
     --color-zinc-50: color-mix(in oklab, var(--tema-texto) 3%, var(--tema-fundo));
@@ -55,8 +63,8 @@
     --color-zinc-200: color-mix(in oklab, var(--tema-texto) 14%, var(--tema-fundo));
     --color-zinc-300: color-mix(in oklab, var(--tema-texto) 24%, var(--tema-fundo));
     --color-zinc-400: color-mix(in oklab, var(--tema-texto) 42%, var(--tema-fundo));
-    --color-zinc-500: color-mix(in oklab, var(--tema-texto) 58%, var(--tema-fundo));
-    --color-zinc-600: color-mix(in oklab, var(--tema-texto) 70%, var(--tema-fundo));
+    --color-zinc-500: color-mix(in oklab, var(--tema-texto) 62%, var(--tema-fundo));
+    --color-zinc-600: color-mix(in oklab, var(--tema-texto) 73%, var(--tema-fundo));
     --color-zinc-700: color-mix(in oklab, var(--tema-texto) 80%, var(--tema-fundo));
     --color-zinc-800: color-mix(in oklab, var(--tema-texto) 88%, var(--tema-fundo));
     --color-zinc-900: color-mix(in oklab, var(--tema-texto) 95%, var(--tema-fundo));
@@ -70,7 +78,7 @@
     --color-brand-400: color-mix(in oklab, var(--tema-destaque) 82%, var(--color-superficie));
     --color-brand-500: color-mix(in oklab, var(--tema-destaque) 88%, var(--tema-texto));
     --color-brand-600: var(--tema-destaque);
-    --color-brand-700: color-mix(in oklab, var(--tema-destaque) 68%, var(--tema-texto));
+    --color-brand-700: var(--color-neon-soft);
     --color-brand-800: color-mix(in oklab, var(--tema-destaque) 54%, var(--tema-texto));
     --color-brand-900: color-mix(in oklab, var(--tema-destaque) 40%, var(--tema-texto));
     --color-brand-950: color-mix(in oklab, var(--tema-destaque) 28%, var(--tema-texto));
@@ -152,6 +160,7 @@
 /* Padrões de fundo (usados como máscara, então herdam a cor de destaque) */
 :root {
     --fundo-circuitos: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' fill='none' stroke='black' stroke-width='1.3'%3E%3Cpath d='M0 30h50l20 20h60l20-20h50M100 50v40l20 20h37M0 140h40l20-20V83M30 200v-30l20-20h40l20 20v30M30 0v12M110 0v12M200 140h-20l-15 15v30'/%3E%3Ccircle cx='160' cy='110' r='3'/%3E%3Ccircle cx='60' cy='80' r='3'/%3E%3Ccircle cx='30' cy='15' r='3'/%3E%3Ccircle cx='110' cy='15' r='3'/%3E%3Ccircle cx='165' cy='188' r='3'/%3E%3C/svg%3E");
+    --fundo-grade: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' fill='none' stroke='black' stroke-width='1'%3E%3Cpath d='M48 .5H0M.5 0v48'/%3E%3C/svg%3E");
     --fundo-rede: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cg stroke='black' stroke-width='.8' fill='none'%3E%3Cpath d='M20 30 95 15l55 50-50 50-70-20ZM95 15l5 100M30 95l-10 85M150 65l30 10M0 75l30 20M100 115l40 50'/%3E%3C/g%3E%3Cg fill='black'%3E%3Ccircle cx='20' cy='30' r='2.5'/%3E%3Ccircle cx='95' cy='15' r='2.5'/%3E%3Ccircle cx='150' cy='65' r='3'/%3E%3Ccircle cx='100' cy='115' r='3.5'/%3E%3Ccircle cx='30' cy='95' r='2.5'/%3E%3Ccircle cx='140' cy='165' r='2'/%3E%3C/g%3E%3C/svg%3E");
 }
 
@@ -184,7 +193,8 @@
 
     /* Desenho de fundo (circuitos / rede), na cor de destaque */
     html[data-fundo='circuitos'] body::after,
-    html[data-fundo='rede'] body::after {
+    html[data-fundo='rede'] body::after,
+    html[data-fundo='grade'] body::after {
         content: '';
         position: fixed;
         inset: 0;
@@ -202,14 +212,22 @@
         mask-size: 180px, 100% 100%;
     }
 
+    html[data-fundo='grade'] body::after {
+        background-color: var(--tema-neon);
+        opacity: calc(var(--tema-brilho) * 0.09);
+        mask-image: var(--fundo-grade), radial-gradient(ellipse 90% 60% at 50% 0%, black, transparent 80%);
+        mask-size: 48px, 100% 100%;
+    }
+
     h1,
     h2 {
         font-family: var(--font-titulo);
-        letter-spacing: 0.02em;
+        font-weight: 700;
+        letter-spacing: 0;
     }
 
     ::selection {
-        background: color-mix(in oklab, var(--tema-destaque) 45%, transparent);
+        background: color-mix(in oklab, var(--tema-neon) 45%, transparent);
         color: var(--tema-texto);
     }
 
@@ -237,6 +255,99 @@
     /* Cartões */
     .cartao {
         @apply rounded-xl border border-zinc-200 bg-superficie/90 shadow-xs backdrop-blur-sm;
+    }
+
+    /* ===== UI kit SIC//2026 (nomes iguais aos do design) ===== */
+
+    /* Botão de ação: carmesim com brilho; no hover fica neon */
+    .btn-neon {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg bg-destaque px-6 py-3 font-display text-sm font-bold tracking-wide text-white uppercase transition;
+        box-shadow: 0 0 22px -4px color-mix(in oklab, var(--tema-neon) 70%, transparent);
+    }
+    .btn-neon:hover {
+        @apply bg-neon;
+        box-shadow: 0 0 30px -2px color-mix(in oklab, var(--tema-neon) 85%, transparent);
+    }
+
+    /* Botão secundário: contorno vermelho escuro; no hover a borda acende */
+    .btn-outline {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg border px-6 py-3 font-display text-sm font-bold tracking-wide text-zinc-950 uppercase transition;
+        border-color: color-mix(in oklab, var(--tema-neon) 40%, transparent);
+        background: color-mix(in oklab, var(--tema-neon) 6%, var(--tema-fundo));
+    }
+    .btn-outline:hover {
+        border-color: var(--tema-neon);
+        box-shadow: 0 0 18px -6px var(--tema-neon);
+    }
+
+    /* Selo "● INSCRIÇÕES ABERTAS!" com ponto pulsando */
+    .badge-live {
+        @apply inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 font-mono text-[11px] font-medium tracking-[0.18em] text-zinc-900 uppercase;
+        border-color: color-mix(in oklab, var(--tema-neon) 55%, transparent);
+        background: color-mix(in oklab, var(--tema-neon) 10%, var(--tema-fundo));
+    }
+    .badge-live::before {
+        content: '';
+        @apply size-1.5 animate-pulse rounded-full bg-neon;
+        box-shadow: 0 0 8px var(--tema-neon);
+    }
+
+    /* Chip quadrado (linguagens, nível, duração) */
+    .chip {
+        @apply inline-flex items-center rounded-md border px-2.5 py-1 font-mono text-[11px] text-zinc-800;
+        border-color: color-mix(in oklab, var(--tema-neon) 35%, transparent);
+    }
+    .chip-ativo {
+        @apply text-zinc-950;
+        border-color: var(--tema-neon);
+        background: color-mix(in oklab, var(--tema-neon) 14%, transparent);
+        box-shadow: 0 0 12px -4px var(--tema-neon);
+    }
+    .chip-neutro {
+        @apply inline-flex items-center rounded bg-zinc-100 px-2 py-0.5 font-mono text-[11px] text-zinc-600;
+    }
+
+    /* Tag arredondada (PALESTRA, MINICURSO, GERAL) */
+    .tag {
+        @apply inline-flex items-center rounded-full border px-2.5 py-0.5 font-mono text-[10px] font-medium tracking-[0.12em] text-zinc-900 uppercase;
+        border-color: color-mix(in oklab, var(--tema-neon) 45%, transparent);
+    }
+
+    /* Cartão de vidro: borda vermelha a 22%; no hover a borda acende com brilho */
+    .glass-card {
+        @apply rounded-xl border bg-superficie/80 backdrop-blur-sm transition;
+        border-color: color-mix(in oklab, var(--tema-neon) 22%, transparent);
+    }
+    .glass-card-hover:hover,
+    a.glass-card:hover {
+        border-color: var(--tema-neon);
+        box-shadow: 0 0 26px -8px var(--tema-neon);
+    }
+
+    /* Grade de circuito local (dentro de cartões / mapa) */
+    .bg-circuit-grid {
+        background-image:
+            linear-gradient(color-mix(in oklab, var(--tema-neon) 9%, transparent) 1px, transparent 1px),
+            linear-gradient(90deg, color-mix(in oklab, var(--tema-neon) 9%, transparent) 1px, transparent 1px);
+        background-size: 28px 28px;
+    }
+
+    /* Texto neon com brilho (o "2026" do topo) */
+    .text-glow {
+        color: var(--tema-neon);
+        text-shadow:
+            0 0 14px color-mix(in oklab, var(--tema-neon) 70%, transparent),
+            0 0 44px color-mix(in oklab, var(--tema-neon) 45%, transparent);
+    }
+
+    /* Rótulo de seção "01 // COMPETIÇÃO" */
+    .rotulo-secao {
+        @apply font-mono text-[11px] tracking-[0.2em] text-neon-soft uppercase;
+    }
+
+    /* Título de seção grande em caixa alta */
+    .titulo-secao {
+        @apply font-display text-4xl leading-[1.05] font-bold text-zinc-950 uppercase sm:text-5xl;
     }
 
     /* Tabelas */
@@ -297,6 +408,6 @@
     /* Linha divisória que some nas pontas */
     .divisor-neon {
         @apply h-px w-full;
-        background: linear-gradient(90deg, transparent, var(--tema-destaque), transparent);
+        background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--tema-neon) 45%, transparent), transparent);
     }
 }

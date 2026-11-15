@@ -55,7 +55,7 @@ Sistema de gestão da **Semana Integrada de Computação** (UFGD · UEMS), const
 
 **Portal do Participante (`/`)** — para o público do evento (tabela `participante`), com login por **e-mail + senha**.
 
-- Página inicial da edição mais recente (datas, local, números e patrocinadores).
+- Página inicial da edição mais recente, no formato de landing page: topo com datas e local, maratona de programação, palestras, minicursos, programação em abas por dia, mapa do evento, patrocinadores e chamada para inscrição.
 - Programação por dia, com filtro por tipo, vagas restantes e ministrantes com foto.
 - Detalhes da atividade com o botão **Inscrever-se**.
 - Cadastro de conta e *Esqueci minha senha*.
@@ -192,16 +192,21 @@ APP_LOCALE=pt_BR
 
 A aparência do site inteiro sai de **um único arquivo**: [`config/identidade.php`](config/identidade.php).
 Isso vale para o portal, o painel, o login, as páginas de erro e a cor do certificado.
-O tema de 2026 (preto com vermelho neon, circuitos e tipografia Cinzel) segue as artes da Semana Integrada de Computação.
+O tema de 2026 ("SIC//2026": preto, carmesim e neon, grade de circuito, fontes Chakra Petch, Inter e JetBrains Mono) segue o design e o UI kit da Semana Integrada de Computação.
 
 | Chave | O que muda |
 |---|---|
-| `nome`, `sigla`, `ano`, `subtitulo`, `instituicoes` | Textos do cabeçalho, rodapé, login e título das abas |
-| `cores.destaque`, `cores.fundo`, `cores.texto` | As 3 cores base; a paleta inteira é calculada a partir delas |
+| `nome`, `sigla`, `ano`, `subtitulo`, `descricao` | Textos de marca: cabeçalho ("SIC//2026"), topo da página inicial, rodapé, login e título das abas |
+| `realizacao`, `instituicoes` | Faixa "Realização" (nomes curtos) e nomes completos das instituições |
+| `cores.destaque`, `neon`, `fundo`, `superficie`, `texto` | Tokens do UI kit; os demais tons (texto suave, bordas, vermelho legível) são calculados a partir deles |
 | `fontes.titulo`, `display`, `corpo`, `mono` | Fontes do Google Fonts (com os pesos após `:`) |
-| `fundo`, `brilho` | Desenho de fundo (`circuitos`, `rede` ou `nenhum`) e intensidade do neon |
-| `logo` | `null` usa a nuvem em SVG; ou o caminho de uma imagem em `public/images/` |
-| `chamada` | Texto em destaque na página inicial (ex.: "Inscrições abertas!") |
+| `fundo`, `brilho` | Desenho de fundo (`grade`, `circuitos`, `rede` ou `nenhum`) e intensidade do neon |
+| `logo` | `null` usa o ícone em SVG; ou o caminho de uma imagem em `public/images/` |
+| `chamada` | Selo do topo da página inicial ("Inscrições abertas!"); some sozinho depois do evento |
+| `maratona` | Seção da maratona: descrição, linguagens, equipes, duração, premiação e o código de exemplo (`null` oculta) |
+| `mapa.endereco`, `mapa.pontos` | Mapa do evento; sem valor, usa o local da edição e os locais das atividades cadastradas |
+
+Palestras, minicursos, programação por dia, locais e patrocinadores vêm do banco: basta cadastrá-los no painel.
 
 Para o próximo ano, basta editar esse arquivo e rodar `php artisan config:clear`.
 Não é preciso recompilar o CSS, porque as cores e as fontes são injetadas direto no HTML.
@@ -210,7 +215,8 @@ Um tema claro também funciona: basta usar um fundo claro com texto escuro.
 Como funciona por baixo:
 - [`identidade/head.blade.php`](resources/views/identidade/head.blade.php) gera as variáveis `--tema-*` e carrega as fontes;
 - [`app.css`](resources/css/app.css) deriva delas as escalas do Tailwind (`zinc-*` vai do fundo ao texto, `brand-*` é o destaque), então as views continuam usando as classes de sempre;
-- o logo SVG fica em [`identidade/logo.blade.php`](resources/views/identidade/logo.blade.php).
+- o ícone SVG fica em [`identidade/logo.blade.php`](resources/views/identidade/logo.blade.php) e a marca "SIC//2026" em [`identidade/marca.blade.php`](resources/views/identidade/marca.blade.php);
+- as classes do UI kit têm os mesmos nomes do design: `.btn-neon`, `.btn-outline`, `.badge-live`, `.chip`, `.tag`, `.glass-card`, `.bg-circuit-grid`, `.text-glow`.
 
 ## 5. Estrutura de pastas
 

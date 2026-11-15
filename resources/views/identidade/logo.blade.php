@@ -1,16 +1,16 @@
 {{--
-    Logo da edição. Usa a imagem de config('identidade.logo') se existir;
-    senão desenha a nuvem em SVG na cor de destaque (com brilho neon).
-    Uso: @include('identidade.logo', ['classe' => 'size-10'])
+    Ícone da edição. Usa a imagem de config('identidade.logo') se existir;
+    senão desenha o ícone de circuito em SVG na cor neon.
+    Uso: @include('identidade.logo', ['classe' => 'size-8'])
 --}}
-@php $classe = $classe ?? 'size-9'; @endphp
+@php $classe = $classe ?? 'size-8'; @endphp
 @if (config('identidade.logo'))
     <img src="{{ asset(config('identidade.logo')) }}" alt="{{ config('identidade.sigla') }}" class="{{ $classe }} shrink-0 object-contain">
 @else
-    <svg viewBox="0 0 64 48" fill="none" class="{{ $classe }} logo-neon shrink-0 text-brand-600" role="img" aria-label="{{ config('identidade.sigla') }}">
-        {{-- Nuvem externa --}}
-        <path d="M15 42h33a10.5 10.5 0 0 0 1.5-20.9A15 15 0 0 0 21 15.5 13.3 13.3 0 0 0 15 42Z" stroke="currentColor" stroke-width="3" stroke-linejoin="round" />
-        {{-- Segunda nuvem sobreposta (como no logo das artes) --}}
-        <path d="M29 42a7.5 7.5 0 0 1 1.5-14.8 9.5 9.5 0 0 1 18.5-6.1" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+    <svg viewBox="0 0 32 32" fill="none" class="{{ $classe }} logo-neon shrink-0 text-neon" role="img" aria-label="{{ config('identidade.sigla') }}">
+        <rect x="1.5" y="1.5" width="29" height="29" rx="7" stroke="currentColor" stroke-width="2" />
+        <path d="M8 11h7l3 3h6M8 16h4M16 16h2l3 3h3M8 21h9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <circle cx="24" cy="14" r="1.6" fill="currentColor" />
+        <circle cx="24" cy="19" r="1.6" fill="currentColor" />
     </svg>
 @endif
