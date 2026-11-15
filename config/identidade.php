@@ -108,12 +108,26 @@ return [
     ],
 
     /*
-    | Seção "Mapa do evento". O endereço padrão é o local da edição (banco).
-    | 'pontos': até 4 itens do mapa esquemático. null = "Credenciamento" +
-    | os locais das atividades da edição (vindos do banco).
+    | Seção "Mapa do evento".
+    | - endereco: null usa o local da edição (banco).
+    | - imagens:  mapas do visualizador, na ordem. Cada item usa UM destes:
+    |     'view'    => desenho em SVG (Blade) em resources/views/mapas/<ano>/ — nítido em qualquer zoom;
+    |     'arquivo' => imagem em public/images/mapas/<ano>/ (png/jpg/svg).
+    |   Lista vazia = volta ao mapa esquemático com 'pontos'.
+    | - pontos:   só para o mapa esquemático (até 4). null = "Credenciamento"
+    |             + os locais das atividades da edição (banco).
     */
     'mapa' => [
         'endereco' => null,
+        'imagens' => [
+            ['view' => 'mapas.2026.campus-blocos', 'titulo' => 'Campus · blocos', 'detalhe' => 'FACET, Bloco Multiuso e Bloco C (UFGD) · Bloco G (UEMS)'],
+            ['view' => 'mapas.2026.campus-auditorios', 'titulo' => 'Campus · auditórios', 'detalhe' => 'Auditório UFGD · Bloco A e Auditório Central (UEMS)'],
+            ['view' => 'mapas.2026.uems-bloco-a-terreo', 'titulo' => 'Bloco A · UEMS', 'detalhe' => 'Térreo · Auditório do Bloco A'],
+            ['view' => 'mapas.2026.ufgd-bloco-c-1-andar', 'titulo' => 'Bloco C · UFGD', 'detalhe' => 'Primeiro andar · Sala C-208'],
+            ['view' => 'mapas.2026.uems-bloco-g-terreo', 'titulo' => 'Bloco G · UEMS', 'detalhe' => 'Térreo · Auditório do Bloco G, Lab I, Lab II e Lab III'],
+            ['view' => 'mapas.2026.ufgd-facet-1-andar-labs', 'titulo' => 'FACET · UFGD · labs', 'detalhe' => 'Primeiro andar · Lab I, Lab de Redes e Lab II'],
+            ['view' => 'mapas.2026.ufgd-facet-1-andar-eletronica-robotica', 'titulo' => 'FACET · UFGD · eletrônica e robótica', 'detalhe' => 'Primeiro andar · Lab de Eletrônica e Lab de Robótica'],
+        ],
         'pontos' => null,
     ],
 ];

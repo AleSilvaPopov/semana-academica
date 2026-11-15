@@ -248,6 +248,119 @@
             // Posições do mapa esquemático (1 à esquerda, 2 em cima, 3 à direita, 4 embaixo).
             $posicoes = ['left-[5%] top-1/2 -translate-y-1/2 h-16 w-20', 'left-1/2 top-[6%] -translate-x-1/2 h-16 w-24', 'right-[5%] top-1/2 -translate-y-1/2 h-20 w-28', 'left-1/2 bottom-[8%] -translate-x-1/2 h-14 w-24'];
         @endphp
+        @if (! empty($mapas))
+            {{-- Mapas reais (imagens do config): lista à esquerda + visualizador --}}
+            <section id="mapa" class="scroll-mt-20 border-t border-neon/10">
+                @include('mapas._defs')
+                <div x-data="{ atual: 0, zoom: false, total: {{ count($mapas) }}, ir(i) { this.atual = (i + this.total) % this.total } }"
+                    @keydown.escape.window="zoom = false"
+                    @keydown.left.window="if ($el.getBoundingClientRect().top < innerHeight && $el.getBoundingClientRect().bottom > 0) ir(atual - 1)"
+                    @keydown.right.window="if ($el.getBoundingClientRect().top < innerHeight && $el.getBoundingClientRect().bottom > 0) ir(atual + 1)"
+                    class="mx-auto grid max-w-6xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+                    <div>
+                        <p class="rotulo-secao">{{ sprintf('%02d', $n) }} // Onde</p>
+                        <h2 class="titulo-secao mt-3">Mapa do evento</h2>
+                        <p class="mt-4 text-zinc-600">{{ $endereco }}</p>
+
+                        <ol class="mt-6 space-y-1.5">
+                            @foreach ($mapas as $i => $m)
+                                <li>
+                                    <button type="button" @click="ir({{ $i }})"
+                                        :class="atual === {{ $i }} ? 'border-neon/60 bg-neon/10 shadow-[0_0_18px_-8px_var(--tema-neon)]' : 'border-transparent hover:bg-zinc-100/60'"
+                                        class="flex w-full items-start gap-3 rounded-lg border px-3 py-2.5 text-left">
+                                        <span :class="atual === {{ $i }} ? 'border-destaque bg-destaque text-white shadow-[0_0_12px_-2px_var(--tema-neon)]' : 'border-neon/50 text-zinc-900'"
+                                            class="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-md border font-mono text-xs">{{ $i + 1 }}</span>
+                                        <span class="min-w-0">
+                                            <span class="block font-display text-sm font-semibold text-zinc-950">{{ $m['titulo'] }}</span>
+                                            @if ($m['detalhe'])<span class="block text-xs text-zinc-500">{{ $m['detalhe'] }}</span>@endif
+                                        </span>
+                                    </button>
+                                </li>
+                            @endforeach
+                        </ol>
+                        <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($endereco) }}" target="_blank" rel="noopener" class="btn-outline mt-6 px-5 py-2.5 text-xs">Abrir no Google Maps</a>
+                    </div>
+
+                    {{-- Visualizador --}}
+                    <div class="glass-card self-start p-3 sm:p-4">
+                        <div class="group relative overflow-hidden rounded-lg bg-black ring-1 ring-neon/20">
+                            <div class="grid">
+                                @foreach ($mapas as $i => $m)
+                                    <div x-show="atual === {{ $i }}" x-transition.opacity.duration.250ms @if ($i > 0) x-cloak @endif
+                                        class="col-start-1 row-start-1 aspect-[60/57] w-full">
+                                        @include('mapas._mostrar', ['m' => $m])
+                                    </div>
+                                @endforeach
+                            </div>
+                            {{-- Legenda sobre a imagem --}}
+                            <div class="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent pt-10 pr-28 pb-3 pl-4">
+                                @foreach ($mapas as $i => $m)
+                                    <div x-show="atual === {{ $i }}" @if ($i > 0) x-cloak @endif>
+                                        <p class="font-display text-base font-semibold text-white">{{ $m['titulo'] }}</p>
+                                        @if ($m['detalhe'])<p class="text-xs text-white/75">{{ $m['detalhe'] }}</p>@endif
+                                    </div>
+                                @endforeach
+                            </div>
+                            <span class="absolute top-3 left-3 rounded-md border border-neon/40 bg-black/75 px-2 py-1 font-mono text-[11px] text-neon-soft backdrop-blur">
+                                <span x-text="String(atual + 1).padStart(2, '0')">01</span> / {{ sprintf('%02d', count($mapas)) }}
+                            </span>
+                            <button type="button" @click="zoom = true"
+                                class="absolute right-3 bottom-4 flex items-center gap-1.5 rounded-md border border-neon/40 bg-black/75 px-2.5 py-1 font-mono text-[11px] text-white uppercase backdrop-blur transition hover:border-neon">
+                                <x-icon name="search" class="size-3.5" /> Ampliar
+                            </button>
+                            <button type="button" @click="ir(atual - 1)" aria-label="Mapa anterior"
+                                class="absolute top-1/2 left-3 flex size-10 -translate-y-1/2 items-center justify-center rounded-full border border-neon/50 bg-black/75 text-white backdrop-blur transition hover:border-neon hover:shadow-[0_0_16px_-4px_var(--tema-neon)] sm:opacity-0 sm:group-hover:opacity-100">
+                                <x-icon name="arrow-left" class="size-5" />
+                            </button>
+                            <button type="button" @click="ir(atual + 1)" aria-label="Próximo mapa"
+                                class="absolute top-1/2 right-3 flex size-10 -translate-y-1/2 items-center justify-center rounded-full border border-neon/50 bg-black/75 text-white backdrop-blur transition hover:border-neon hover:shadow-[0_0_16px_-4px_var(--tema-neon)] sm:opacity-0 sm:group-hover:opacity-100">
+                                <x-icon name="arrow-right" class="size-5" />
+                            </button>
+                        </div>
+
+                        {{-- Miniaturas --}}
+                        <div class="mt-3 grid gap-2" style="grid-template-columns: repeat({{ count($mapas) }}, minmax(0, 1fr))">
+                            @foreach ($mapas as $i => $m)
+                                <button type="button" @click="ir({{ $i }})" aria-label="Ver mapa: {{ $m['titulo'] }}"
+                                    :class="atual === {{ $i }} ? 'ring-2 ring-neon opacity-100 shadow-[0_0_14px_-4px_var(--tema-neon)]' : 'ring-1 ring-neon/15 opacity-50 hover:opacity-90'"
+                                    class="aspect-square overflow-hidden rounded-md bg-black">
+                                    <span class="pointer-events-none block h-full w-full [&>svg]:h-full [&>svg]:w-full" aria-hidden="true">
+                                        @include('mapas._mostrar', ['m' => $m])
+                                    </span>
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    {{-- Tela cheia (Ampliar) --}}
+                    <div x-show="zoom" x-cloak x-transition.opacity class="fixed inset-0 z-50 flex flex-col bg-black/95 p-3 backdrop-blur sm:p-6" role="dialog" aria-modal="true" aria-label="Mapa ampliado">
+                        <div class="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 pb-3">
+                            @foreach ($mapas as $i => $m)
+                                <div x-show="atual === {{ $i }}" class="min-w-0">
+                                    <p class="truncate font-display text-lg font-semibold text-white">{{ $m['titulo'] }}</p>
+                                    <p class="truncate text-sm text-white/70">{{ $m['detalhe'] }}</p>
+                                </div>
+                            @endforeach
+                            <div class="flex shrink-0 items-center gap-2">
+                                <span class="font-mono text-xs text-neon-soft"><span x-text="String(atual + 1).padStart(2, '0')">01</span> / {{ sprintf('%02d', count($mapas)) }}</span>
+                                <button type="button" @click="ir(atual - 1)" aria-label="Mapa anterior" class="flex size-10 items-center justify-center rounded-full border border-neon/50 text-white hover:border-neon"><x-icon name="arrow-left" class="size-5" /></button>
+                                <button type="button" @click="ir(atual + 1)" aria-label="Próximo mapa" class="flex size-10 items-center justify-center rounded-full border border-neon/50 text-white hover:border-neon"><x-icon name="arrow-right" class="size-5" /></button>
+                                <button type="button" @click="zoom = false" aria-label="Fechar" class="flex size-10 items-center justify-center rounded-full border border-neon bg-destaque text-white"><x-icon name="x" class="size-5" /></button>
+                            </div>
+                        </div>
+                        <div class="flex min-h-0 flex-1 items-center justify-center" @click.self="zoom = false">
+                            @foreach ($mapas as $i => $m)
+                                <template x-if="zoom && atual === {{ $i }}">
+                                    <div class="aspect-[60/57] max-h-full w-full max-w-[min(100%,calc((100vh-8rem)*60/57))] overflow-hidden rounded-lg ring-1 ring-neon/30">
+                                        @include('mapas._mostrar', ['m' => $m, 'classe' => 'h-full w-full object-contain'])
+                                    </div>
+                                </template>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </section>
+        @else
         <section id="mapa" class="scroll-mt-20 border-t border-neon/10">
             <div class="mx-auto grid max-w-6xl items-center gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2">
                 <div>
@@ -275,6 +388,7 @@
                 </div>
             </div>
         </section>
+        @endif
 
         {{-- ============ PATROCINADORES (banco) ============ --}}
         @if ($edicao->patrocinios->isNotEmpty())

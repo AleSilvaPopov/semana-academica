@@ -204,7 +204,7 @@ O tema de 2026 ("SIC//2026": preto, carmesim e neon, grade de circuito, fontes C
 | `logo` | `null` usa o ícone em SVG; ou o caminho de uma imagem em `public/images/` |
 | `chamada` | Selo do topo da página inicial ("Inscrições abertas!"); some sozinho depois do evento |
 | `maratona` | Seção da maratona: descrição, linguagens, equipes, duração, premiação e o código de exemplo (`null` oculta) |
-| `mapa.endereco`, `mapa.pontos` | Mapa do evento; sem valor, usa o local da edição e os locais das atividades cadastradas |
+| `mapa.endereco`, `mapa.imagens` | Mapa do evento: endereço (sem valor, usa o local da edição) e a lista de mapas do visualizador. Cada mapa é um desenho em SVG (`view`, em `resources/views/mapas/<ano>/`, nítido em qualquer zoom) ou uma imagem (`arquivo`, em `public/images/mapas/<ano>/`). Com a lista vazia, volta ao mapa esquemático com `mapa.pontos` |
 
 Palestras, minicursos, programação por dia, locais e patrocinadores vêm do banco: basta cadastrá-los no painel.
 

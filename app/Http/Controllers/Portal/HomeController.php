@@ -49,6 +49,22 @@ class HomeController extends Controller
             'minicursos' => $atividades->where('tipo', '!=', TipoAtividade::Palestra)->take(3)->values(),
             'dias' => $atividades->groupBy(fn ($a) => $a->data_realizacao->toDateString()),
             'pontos' => $pontos,
+            // Mapas do config: desenho SVG (view) ou imagem (arquivo); ignora os que não existem.
+            'mapas' => collect(config('identidade.mapa.imagens', []))
+                ->map(function ($m) {
+                    $base = ['titulo' => $m['titulo'] ?? '', 'detalhe' => $m['detalhe'] ?? ''];
+                    if (! empty($m['view']) && view()->exists($m['view'])) {
+                        return $base + ['view' => $m['view'], 'url' => null];
+                    }
+                    if (! empty($m['arquivo']) && is_file(public_path($m['arquivo']))) {
+                        return $base + ['view' => null, 'url' => asset($m['arquivo'])];
+                    }
+
+                    return null;
+                })
+                ->filter()
+                ->values()
+                ->all(),
             'endereco' => config('identidade.mapa.endereco') ?? $edicao->local_sede,
         ]);
     }
