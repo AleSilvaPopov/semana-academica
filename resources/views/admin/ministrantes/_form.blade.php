@@ -13,7 +13,7 @@
             <div x-data="{ previa: null }">
                 <span class="rotulo">Imagem de divulgação</span>
                 <div class="flex items-center gap-4">
-                    <template x-if="previa"><img :src="previa" class="size-20 rounded-full object-cover ring-2 ring-white" alt="Prévia"></template>
+                    <template x-if="previa"><img :src="previa" class="size-20 rounded-full object-cover ring-2 ring-superficie" alt="Prévia"></template>
                     <template x-if="!previa">
                         <x-avatar :nome="$ministrante->participante?->nome_completo ?? 'Novo ministrante'" :url="$ministrante->imagem_url" tamanho="size-20" />
                     </template>

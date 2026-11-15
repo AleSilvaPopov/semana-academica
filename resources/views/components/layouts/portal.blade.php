@@ -1,21 +1,23 @@
 @props(['titulo' => null])
+@php use App\Support\Identidade; @endphp
 <!DOCTYPE html>
-<html lang="pt-BR" class="h-full">
+<html lang="pt-BR" class="h-full" {!! Identidade::atributosHtml() !!}>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $titulo ? $titulo.' · ' : '' }}Semana Acadêmica de Computação · UFGD</title>
+    <title>{{ Identidade::tituloPagina($titulo) }}</title>
+    @include('identidade.head')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="flex min-h-full flex-col bg-white">
-<header x-data="{ menu: false }" class="sticky top-0 z-30 border-b border-zinc-200 bg-white/90 backdrop-blur">
+<body class="flex min-h-full flex-col">
+<header x-data="{ menu: false }" class="sticky top-0 z-30 border-b border-zinc-200 bg-fundo/80 backdrop-blur-md">
     <div class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-        <a href="{{ route('portal.home') }}" class="flex items-center gap-2.5">
-            <span class="flex size-9 items-center justify-center rounded-lg bg-brand-600 text-sm font-bold text-white">SA</span>
+        <a href="{{ route('portal.home') }}" class="flex items-center gap-3">
+            @include('identidade.logo', ['classe' => 'h-8 w-11'])
             <span class="leading-tight">
-                <span class="block text-sm font-semibold text-zinc-900">Semana Acadêmica</span>
-                <span class="block text-xs text-zinc-500">Computação · UFGD</span>
+                <span class="block font-titulo text-sm font-bold tracking-wide text-zinc-950">{{ config('identidade.sigla') }} {{ config('identidade.ano') }}</span>
+                <span class="block font-mono text-[10px] tracking-[0.18em] text-zinc-500 uppercase">{{ config('identidade.subtitulo') }}</span>
             </span>
         </a>
 
@@ -34,7 +36,7 @@
         <nav class="hidden items-center gap-1 md:flex">
             @foreach ($links as [$rota, $rotulo, $padrao])
                 @if (Route::has($rota))
-                    <a href="{{ route($rota) }}" class="rounded-lg px-3 py-2 text-sm font-medium {{ request()->routeIs($padrao) ? 'text-brand-700' : 'text-zinc-600 hover:text-zinc-900' }}">{{ $rotulo }}</a>
+                    <a href="{{ route($rota) }}" class="relative rounded-lg px-3 py-2 text-sm font-medium transition {{ request()->routeIs($padrao) ? 'text-brand-700 neon after:absolute after:inset-x-3 after:-bottom-[13px] after:h-px after:bg-brand-600 after:shadow-[0_0_8px_var(--tema-destaque)]' : 'text-zinc-600 hover:text-zinc-950' }}">{{ $rotulo }}</a>
                 @endif
             @endforeach
         </nav>
@@ -61,7 +63,7 @@
     </div>
 
     {{-- Menu no celular --}}
-    <div x-show="menu" x-cloak x-transition class="border-t border-zinc-100 px-4 pb-4 md:hidden">
+    <div x-show="menu" x-cloak x-transition class="border-t border-zinc-200 px-4 pb-4 md:hidden">
         <nav class="flex flex-col py-2">
             @foreach ($links as [$rota, $rotulo, $padrao])
                 @if (Route::has($rota))
@@ -92,10 +94,19 @@
     {{ $slot }}
 </main>
 
-<footer class="mt-16 border-t border-zinc-200 bg-zinc-50">
-    <div class="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-8 text-sm text-zinc-500 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-        <p>Semana Acadêmica de Computação · Universidade Federal da Grande Dourados</p>
-        <a href="{{ route('admin.login') }}" class="hover:text-zinc-800">Área da organização →</a>
+<footer class="mt-20">
+    <div class="divisor-neon opacity-60"></div>
+    <div class="bg-fundo/70">
+        <div class="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 text-sm text-zinc-500 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+            <div class="flex items-center gap-3">
+                @include('identidade.logo', ['classe' => 'h-7 w-10'])
+                <div>
+                    <p class="font-titulo font-semibold text-zinc-800">{{ Identidade::nomeCompleto() }}</p>
+                    <p class="text-xs">{{ implode(' · ', config('identidade.instituicoes', [])) }}</p>
+                </div>
+            </div>
+            <a href="{{ route('admin.login') }}" class="rotulo-mono text-[11px] text-zinc-500 hover:text-brand-700">Área da organização →</a>
+        </div>
     </div>
 </footer>
 </body>

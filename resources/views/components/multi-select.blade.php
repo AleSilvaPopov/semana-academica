@@ -31,7 +31,7 @@
             placeholder="{{ $placeholder }}" class="min-w-[8rem] flex-1 border-0 p-0.5 text-sm focus:ring-0 focus:outline-none">
     </div>
     <div x-show="aberto" x-cloak x-transition.opacity
-        class="absolute z-30 mt-1 max-h-60 w-full overflow-y-auto rounded-lg border border-zinc-200 bg-white py-1 shadow-lg">
+        class="absolute z-30 mt-1 max-h-60 w-full overflow-y-auto rounded-lg border border-zinc-200 bg-superficie py-1 shadow-lg">
         <template x-for="opcao in filtradas" :key="'op-' + opcao.valor">
             <button type="button" @click="adicionar(opcao.valor)" class="block w-full px-3 py-2 text-left text-sm hover:bg-brand-50"
                 x-text="opcao.rotulo"></button>

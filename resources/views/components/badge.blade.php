@@ -6,7 +6,7 @@
     }
     $cores = [
         'zinc' => 'bg-zinc-100 text-zinc-700 ring-zinc-500/20',
-        'blue' => 'bg-brand-50 text-brand-700 ring-brand-600/20',
+        'blue' => 'bg-sky-50 text-sky-700 ring-sky-600/20', // "azul" fica azul: a cor de destaque muda a cada ano
         'green' => 'bg-emerald-50 text-emerald-700 ring-emerald-600/20',
         'amber' => 'bg-amber-50 text-amber-800 ring-amber-600/20',
         'red' => 'bg-red-50 text-red-700 ring-red-600/20',

@@ -6,7 +6,7 @@
             <thead>
                 <tr>{{ $cabecalho }}</tr>
             </thead>
-            <tbody class="divide-y divide-zinc-100 bg-white">
+            <tbody class="divide-y divide-zinc-100 bg-superficie">
                 @if ($vazia)
                     <tr>
                         <td colspan="99" class="py-10 text-center text-sm text-zinc-500">{{ $vazio }}</td>

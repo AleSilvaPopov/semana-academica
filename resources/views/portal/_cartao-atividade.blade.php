@@ -5,7 +5,7 @@
     $inscrito = $inscrito ?? false;
 @endphp
 <a href="{{ route('portal.atividades.show', $a) }}"
-    class="group flex h-full flex-col rounded-xl border border-zinc-200 bg-white p-4 shadow-xs transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md">
+    class="group flex h-full flex-col rounded-xl border border-zinc-200 bg-superficie/90 p-4 shadow-xs backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-brand-400 hover:shadow-[0_0_24px_-8px_var(--tema-destaque)]">
     <div class="flex items-start justify-between gap-2">
         <div class="flex flex-wrap items-center gap-1.5">
             <x-badge :enum="$a->tipo" />
@@ -16,7 +16,7 @@
             @endif
             @if ($inscrito)<x-badge cor="green">Inscrito</x-badge>@endif
         </div>
-        <span class="shrink-0 text-sm font-semibold text-zinc-900 tabular-nums">{{ $a->data_realizacao->format('H:i') }}</span>
+        <span class="shrink-0 font-mono text-sm font-bold text-brand-700 tabular-nums">{{ $a->data_realizacao->format('H:i') }}</span>
     </div>
     <h3 class="mt-2 font-semibold text-zinc-900 group-hover:text-brand-700">{{ $a->nome }}</h3>
     <p class="mt-1 line-clamp-2 text-sm text-zinc-500">{{ $a->descricao }}</p>

@@ -22,7 +22,7 @@
         @else
             <dl class="grid grid-cols-2 gap-px bg-zinc-100 sm:grid-cols-4">
                 @foreach (['Banco' => $info['banco'], 'Versão do MySQL' => $info['versao'], 'Collation' => $info['collation'], 'Total de registros' => number_format($total, 0, ',', '.')] as $rotulo => $valor)
-                    <div class="bg-white px-6 py-4">
+                    <div class="bg-superficie px-6 py-4">
                         <dt class="text-xs text-zinc-500">{{ $rotulo }}</dt>
                         <dd class="mt-1 font-semibold break-all text-zinc-900">{{ $valor }}</dd>
                     </div>

@@ -6,7 +6,7 @@
                 <x-icon name="arrow-left" class="size-4" /> Voltar
             </a>
         @endif
-        <h1 class="text-2xl font-semibold tracking-tight text-zinc-900">{{ $titulo }}</h1>
+        <h1 class="text-2xl font-semibold text-zinc-950">{{ $titulo }}</h1>
         @if ($subtitulo)
             <p class="mt-1 text-sm text-zinc-500">{{ $subtitulo }}</p>
         @endif

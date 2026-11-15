@@ -5,8 +5,8 @@ Sistema de gestão da **Semana Acadêmica de Computação da UFGD**, construído
 
 | | |
 |---|---|
-| **Sistema publicado** | `https://SEU-PROJETO.up.railway.app` *(preencher após o deploy)* |
-| **Repositório** | `https://github.com/SEU-USUARIO/semana-academica` *(preencher)* |
+| **Sistema publicado** | `https://Semana-Acadêmica-de-Computação.up.railway.app` *(preencher após o deploy)* |
+| **Repositório** | `https://github.com/AleSilvaPopov/semana-academica` *(preencher)* |
 | **Banco** | [`database/sql/script.sql`](database/sql/script.sql) (original, sem alterações) |
 | **Autores** | Gabriel Fabricio Meirelles Peu e Alexandre da Silva Popov |
 
@@ -186,6 +186,30 @@ CACHE_STORE=file
 QUEUE_CONNECTION=sync
 APP_LOCALE=pt_BR
 ```
+
+### Identidade visual: trocar o tema a cada ano
+
+A aparência do site inteiro sai de **um único arquivo**: [`config/identidade.php`](config/identidade.php).
+Isso vale para o portal, o painel, o login, as páginas de erro e a cor do certificado.
+O tema de 2026 (preto com vermelho neon, circuitos e tipografia Cinzel) segue as artes da Semana Integrada de Computação.
+
+| Chave | O que muda |
+|---|---|
+| `nome`, `sigla`, `ano`, `subtitulo`, `instituicoes` | Textos do cabeçalho, rodapé, login e título das abas |
+| `cores.destaque`, `cores.fundo`, `cores.texto` | As 3 cores base; a paleta inteira é calculada a partir delas |
+| `fontes.titulo`, `display`, `corpo`, `mono` | Fontes do Google Fonts (com os pesos após `:`) |
+| `fundo`, `brilho` | Desenho de fundo (`circuitos`, `rede` ou `nenhum`) e intensidade do neon |
+| `logo` | `null` usa a nuvem em SVG; ou o caminho de uma imagem em `public/images/` |
+| `chamada` | Texto em destaque na página inicial (ex.: "Inscrições abertas!") |
+
+Para o próximo ano, basta editar esse arquivo e rodar `php artisan config:clear`.
+Não é preciso recompilar o CSS, porque as cores e as fontes são injetadas direto no HTML.
+Um tema claro também funciona: basta usar um fundo claro com texto escuro.
+
+Como funciona por baixo:
+- [`identidade/head.blade.php`](resources/views/identidade/head.blade.php) gera as variáveis `--tema-*` e carrega as fontes;
+- [`app.css`](resources/css/app.css) deriva delas as escalas do Tailwind (`zinc-*` vai do fundo ao texto, `brand-*` é o destaque), então as views continuam usando as classes de sempre;
+- o logo SVG fica em [`identidade/logo.blade.php`](resources/views/identidade/logo.blade.php).
 
 ## 5. Estrutura de pastas
 

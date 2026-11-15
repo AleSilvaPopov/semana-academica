@@ -9,19 +9,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Certificado · {{ $participante->nome_completo }} · {{ $atividade->nome }}</title>
     <style>
+        /* Cor de destaque da edição (config/identidade.php), escurecida para impressão em papel branco */
+        :root { --c: {{ preg_match('/^#[0-9a-fA-F]{3,8}$/', (string) config('identidade.cores.destaque')) ? config('identidade.cores.destaque') : '#e3262f' }}; --c-escura: color-mix(in srgb, var(--c) 70%, #000); --c-clara: color-mix(in srgb, var(--c) 40%, #fff); }
         @page { size: A4 landscape; margin: 0; }
         * { box-sizing: border-box; }
         body { margin: 0; background: #e4e4e7; font-family: Georgia, 'Times New Roman', serif; color: #18181b; }
         .barra { display: flex; gap: 8px; justify-content: center; padding: 16px; font-family: system-ui, sans-serif; }
         .barra a, .barra button { border: 1px solid #d4d4d8; background: #fff; color: #27272a; padding: 8px 16px; border-radius: 8px; font-size: 14px; cursor: pointer; text-decoration: none; }
-        .barra button { background: #2554eb; border-color: #2554eb; color: #fff; }
+        .barra button { background: var(--c); border-color: var(--c); color: #fff; }
         .pagina { width: 297mm; height: 210mm; margin: 0 auto 24px; background: #fff; padding: 14mm; box-shadow: 0 10px 30px rgba(0,0,0,.12); }
-        .moldura { height: 100%; border: 3px solid #1e36af; outline: 1px solid #93bbfd; outline-offset: -9px; padding: 16mm 22mm; display: flex; flex-direction: column; text-align: center; position: relative; }
-        .topo { font-family: system-ui, sans-serif; font-size: 12px; letter-spacing: .25em; text-transform: uppercase; color: #1e36af; }
-        h1 { font-size: 44px; margin: 10mm 0 2mm; letter-spacing: .08em; color: #172154; font-weight: normal; }
+        .moldura { height: 100%; border: 3px solid var(--c-escura); outline: 1px solid var(--c-clara); outline-offset: -9px; padding: 16mm 22mm; display: flex; flex-direction: column; text-align: center; position: relative; }
+        .topo { font-family: system-ui, sans-serif; font-size: 12px; letter-spacing: .25em; text-transform: uppercase; color: var(--c-escura); }
+        h1 { font-size: 44px; margin: 10mm 0 2mm; letter-spacing: .08em; color: #18181b; font-weight: normal; }
         .sub { font-family: system-ui, sans-serif; font-size: 13px; color: #71717a; letter-spacing: .15em; text-transform: uppercase; }
         .texto { margin-top: 12mm; font-size: 19px; line-height: 1.8; }
-        .nome { font-size: 30px; font-weight: bold; color: #172154; display: block; margin: 3mm 0; }
+        .nome { font-size: 30px; font-weight: bold; color: #18181b; display: block; margin: 3mm 0; }
         .rodape { margin-top: auto; display: flex; justify-content: space-between; align-items: flex-end; font-family: system-ui, sans-serif; font-size: 12px; color: #52525b; }
         .assinatura { width: 70mm; border-top: 1px solid #52525b; padding-top: 2mm; }
         .codigo { text-align: left; }

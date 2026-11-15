@@ -6,33 +6,211 @@
 @source '../../app/**/*.php';
 
 /*
- * Paleta: cinzas neutros (zinc) + uma cor de destaque (azul).
- * As classes "brand-*" ficam disponíveis como qualquer cor do Tailwind.
+ * ===================================================================
+ *  TEMA
+ * ===================================================================
+ *  As cores, fontes e o fundo NÃO são definidos aqui: vêm de
+ *  config/identidade.php e são injetados no <head> como variáveis
+ *  (--tema-destaque, --tema-fundo, --tema-texto, --tema-fonte-*)
+ *  pelo partial resources/views/identidade/head.blade.php.
+ *
+ *  Este arquivo só DERIVA a paleta do Tailwind a partir delas:
+ *   - zinc-50 … zinc-950 → do fundo (50) até o texto (950)
+ *   - brand-*            → a cor de destaque da edição
+ *   - red/emerald/amber… → cores de status, ajustadas ao fundo
+ *  Assim as views continuam usando as classes de sempre (text-zinc-900,
+ *  bg-brand-600…) e funcionam tanto com fundo escuro quanto claro.
+ *
+ *  Os valores abaixo em :root são só o padrão, caso o partial falte.
+ *  Ficam dentro de @layer para que o <style> do partial (fora de layer)
+ *  sempre vença, independentemente da ordem no <head>.
+ * ===================================================================
  */
-@theme {
-    --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-        sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+@layer base {
+    :root {
+        --tema-destaque: #e3262f;
+        --tema-fundo: #070708;
+        --tema-texto: #f2f0f0;
+        --tema-brilho: 0.6;
+        --tema-fonte-titulo: Georgia, serif;
+        --tema-fonte-display: var(--tema-fonte-titulo);
+        --tema-fonte-corpo: ui-sans-serif, system-ui, sans-serif;
+        --tema-fonte-mono: ui-monospace, monospace;
+    }
+}
 
-    --color-brand-50: #eff5ff;
-    --color-brand-100: #dbe8fe;
-    --color-brand-200: #bfd7fe;
-    --color-brand-300: #93bbfd;
-    --color-brand-400: #6096fa;
-    --color-brand-500: #3b72f6;
-    --color-brand-600: #2554eb;
-    --color-brand-700: #1d40d8;
-    --color-brand-800: #1e36af;
-    --color-brand-900: #1e338a;
-    --color-brand-950: #172154;
+@theme {
+    --font-sans: var(--tema-fonte-corpo);
+    --font-mono: var(--tema-fonte-mono);
+    --font-titulo: var(--tema-fonte-titulo);
+    --font-display: var(--tema-fonte-display);
+
+    /* Fundo dos cartões, tabelas, menus e modais (antes "white") */
+    --color-superficie: color-mix(in oklab, var(--tema-texto) 5%, var(--tema-fundo));
+    --color-fundo: var(--tema-fundo);
+
+    /* Neutros: do fundo (50) até o texto (950) */
+    --color-zinc-50: color-mix(in oklab, var(--tema-texto) 3%, var(--tema-fundo));
+    --color-zinc-100: color-mix(in oklab, var(--tema-texto) 8%, var(--tema-fundo));
+    --color-zinc-200: color-mix(in oklab, var(--tema-texto) 14%, var(--tema-fundo));
+    --color-zinc-300: color-mix(in oklab, var(--tema-texto) 24%, var(--tema-fundo));
+    --color-zinc-400: color-mix(in oklab, var(--tema-texto) 42%, var(--tema-fundo));
+    --color-zinc-500: color-mix(in oklab, var(--tema-texto) 58%, var(--tema-fundo));
+    --color-zinc-600: color-mix(in oklab, var(--tema-texto) 70%, var(--tema-fundo));
+    --color-zinc-700: color-mix(in oklab, var(--tema-texto) 80%, var(--tema-fundo));
+    --color-zinc-800: color-mix(in oklab, var(--tema-texto) 88%, var(--tema-fundo));
+    --color-zinc-900: color-mix(in oklab, var(--tema-texto) 95%, var(--tema-fundo));
+    --color-zinc-950: var(--tema-texto);
+
+    /* Destaque e status: 50–400 = fundos/bordas tingidos, 600 = cor pura, 700–950 = texto */
+    --color-brand-50: color-mix(in oklab, var(--tema-destaque) 12%, var(--color-superficie));
+    --color-brand-100: color-mix(in oklab, var(--tema-destaque) 20%, var(--color-superficie));
+    --color-brand-200: color-mix(in oklab, var(--tema-destaque) 34%, var(--color-superficie));
+    --color-brand-300: color-mix(in oklab, var(--tema-destaque) 60%, var(--color-superficie));
+    --color-brand-400: color-mix(in oklab, var(--tema-destaque) 82%, var(--color-superficie));
+    --color-brand-500: color-mix(in oklab, var(--tema-destaque) 88%, var(--tema-texto));
+    --color-brand-600: var(--tema-destaque);
+    --color-brand-700: color-mix(in oklab, var(--tema-destaque) 68%, var(--tema-texto));
+    --color-brand-800: color-mix(in oklab, var(--tema-destaque) 54%, var(--tema-texto));
+    --color-brand-900: color-mix(in oklab, var(--tema-destaque) 40%, var(--tema-texto));
+    --color-brand-950: color-mix(in oklab, var(--tema-destaque) 28%, var(--tema-texto));
+
+    --color-red-50: color-mix(in oklab, #ef4444 12%, var(--color-superficie));
+    --color-red-100: color-mix(in oklab, #ef4444 20%, var(--color-superficie));
+    --color-red-200: color-mix(in oklab, #ef4444 34%, var(--color-superficie));
+    --color-red-300: color-mix(in oklab, #ef4444 60%, var(--color-superficie));
+    --color-red-400: color-mix(in oklab, #ef4444 82%, var(--color-superficie));
+    --color-red-500: color-mix(in oklab, #ef4444 88%, var(--tema-texto));
+    --color-red-600: #ef4444;
+    --color-red-700: color-mix(in oklab, #ef4444 68%, var(--tema-texto));
+    --color-red-800: color-mix(in oklab, #ef4444 54%, var(--tema-texto));
+    --color-red-900: color-mix(in oklab, #ef4444 40%, var(--tema-texto));
+    --color-red-950: color-mix(in oklab, #ef4444 28%, var(--tema-texto));
+
+    --color-emerald-50: color-mix(in oklab, #10b981 12%, var(--color-superficie));
+    --color-emerald-100: color-mix(in oklab, #10b981 20%, var(--color-superficie));
+    --color-emerald-200: color-mix(in oklab, #10b981 34%, var(--color-superficie));
+    --color-emerald-300: color-mix(in oklab, #10b981 60%, var(--color-superficie));
+    --color-emerald-400: color-mix(in oklab, #10b981 82%, var(--color-superficie));
+    --color-emerald-500: color-mix(in oklab, #10b981 88%, var(--tema-texto));
+    --color-emerald-600: #10b981;
+    --color-emerald-700: color-mix(in oklab, #10b981 68%, var(--tema-texto));
+    --color-emerald-800: color-mix(in oklab, #10b981 54%, var(--tema-texto));
+    --color-emerald-900: color-mix(in oklab, #10b981 40%, var(--tema-texto));
+    --color-emerald-950: color-mix(in oklab, #10b981 28%, var(--tema-texto));
+
+    --color-amber-50: color-mix(in oklab, #f59e0b 12%, var(--color-superficie));
+    --color-amber-100: color-mix(in oklab, #f59e0b 20%, var(--color-superficie));
+    --color-amber-200: color-mix(in oklab, #f59e0b 34%, var(--color-superficie));
+    --color-amber-300: color-mix(in oklab, #f59e0b 60%, var(--color-superficie));
+    --color-amber-400: color-mix(in oklab, #f59e0b 82%, var(--color-superficie));
+    --color-amber-500: color-mix(in oklab, #f59e0b 88%, var(--tema-texto));
+    --color-amber-600: #f59e0b;
+    --color-amber-700: color-mix(in oklab, #f59e0b 68%, var(--tema-texto));
+    --color-amber-800: color-mix(in oklab, #f59e0b 54%, var(--tema-texto));
+    --color-amber-900: color-mix(in oklab, #f59e0b 40%, var(--tema-texto));
+    --color-amber-950: color-mix(in oklab, #f59e0b 28%, var(--tema-texto));
+
+    --color-violet-50: color-mix(in oklab, #8b5cf6 12%, var(--color-superficie));
+    --color-violet-100: color-mix(in oklab, #8b5cf6 20%, var(--color-superficie));
+    --color-violet-200: color-mix(in oklab, #8b5cf6 34%, var(--color-superficie));
+    --color-violet-300: color-mix(in oklab, #8b5cf6 60%, var(--color-superficie));
+    --color-violet-400: color-mix(in oklab, #8b5cf6 82%, var(--color-superficie));
+    --color-violet-500: color-mix(in oklab, #8b5cf6 88%, var(--tema-texto));
+    --color-violet-600: #8b5cf6;
+    --color-violet-700: color-mix(in oklab, #8b5cf6 68%, var(--tema-texto));
+    --color-violet-800: color-mix(in oklab, #8b5cf6 54%, var(--tema-texto));
+    --color-violet-900: color-mix(in oklab, #8b5cf6 40%, var(--tema-texto));
+    --color-violet-950: color-mix(in oklab, #8b5cf6 28%, var(--tema-texto));
+
+    --color-sky-50: color-mix(in oklab, #0ea5e9 12%, var(--color-superficie));
+    --color-sky-100: color-mix(in oklab, #0ea5e9 20%, var(--color-superficie));
+    --color-sky-200: color-mix(in oklab, #0ea5e9 34%, var(--color-superficie));
+    --color-sky-300: color-mix(in oklab, #0ea5e9 60%, var(--color-superficie));
+    --color-sky-400: color-mix(in oklab, #0ea5e9 82%, var(--color-superficie));
+    --color-sky-500: color-mix(in oklab, #0ea5e9 88%, var(--tema-texto));
+    --color-sky-600: #0ea5e9;
+    --color-sky-700: color-mix(in oklab, #0ea5e9 68%, var(--tema-texto));
+    --color-sky-800: color-mix(in oklab, #0ea5e9 54%, var(--tema-texto));
+    --color-sky-900: color-mix(in oklab, #0ea5e9 40%, var(--tema-texto));
+    --color-sky-950: color-mix(in oklab, #0ea5e9 28%, var(--tema-texto));
+
+    --color-pink-50: color-mix(in oklab, #ec4899 12%, var(--color-superficie));
+    --color-pink-100: color-mix(in oklab, #ec4899 20%, var(--color-superficie));
+    --color-pink-200: color-mix(in oklab, #ec4899 34%, var(--color-superficie));
+    --color-pink-300: color-mix(in oklab, #ec4899 60%, var(--color-superficie));
+    --color-pink-400: color-mix(in oklab, #ec4899 82%, var(--color-superficie));
+    --color-pink-500: color-mix(in oklab, #ec4899 88%, var(--tema-texto));
+    --color-pink-600: #ec4899;
+    --color-pink-700: color-mix(in oklab, #ec4899 68%, var(--tema-texto));
+    --color-pink-800: color-mix(in oklab, #ec4899 54%, var(--tema-texto));
+    --color-pink-900: color-mix(in oklab, #ec4899 40%, var(--tema-texto));
+    --color-pink-950: color-mix(in oklab, #ec4899 28%, var(--tema-texto));
+
+}
+
+/* Padrões de fundo (usados como máscara, então herdam a cor de destaque) */
+:root {
+    --fundo-circuitos: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' fill='none' stroke='black' stroke-width='1.3'%3E%3Cpath d='M0 30h50l20 20h60l20-20h50M100 50v40l20 20h37M0 140h40l20-20V83M30 200v-30l20-20h40l20 20v30M30 0v12M110 0v12M200 140h-20l-15 15v30'/%3E%3Ccircle cx='160' cy='110' r='3'/%3E%3Ccircle cx='60' cy='80' r='3'/%3E%3Ccircle cx='30' cy='15' r='3'/%3E%3Ccircle cx='110' cy='15' r='3'/%3E%3Ccircle cx='165' cy='188' r='3'/%3E%3C/svg%3E");
+    --fundo-rede: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cg stroke='black' stroke-width='.8' fill='none'%3E%3Cpath d='M20 30 95 15l55 50-50 50-70-20ZM95 15l5 100M30 95l-10 85M150 65l30 10M0 75l30 20M100 115l40 50'/%3E%3C/g%3E%3Cg fill='black'%3E%3Ccircle cx='20' cy='30' r='2.5'/%3E%3Ccircle cx='95' cy='15' r='2.5'/%3E%3Ccircle cx='150' cy='65' r='3'/%3E%3Ccircle cx='100' cy='115' r='3.5'/%3E%3Ccircle cx='30' cy='95' r='2.5'/%3E%3Ccircle cx='140' cy='165' r='2'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 @layer base {
     html {
         -webkit-tap-highlight-color: transparent;
+        color-scheme: dark;
+    }
+
+    html[data-esquema='light'] {
+        color-scheme: light;
     }
 
     body {
-        @apply bg-zinc-50 text-zinc-800 antialiased;
+        @apply text-zinc-800 antialiased;
+        background-color: var(--tema-fundo);
+    }
+
+    /* Brilho neon no topo e no rodapé da página */
+    body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        z-index: -2;
+        pointer-events: none;
+        background:
+            radial-gradient(70% 45% at 10% -5%, color-mix(in oklab, var(--tema-destaque) calc(var(--tema-brilho) * 28%), transparent), transparent 70%),
+            radial-gradient(60% 40% at 100% 105%, color-mix(in oklab, var(--tema-destaque) calc(var(--tema-brilho) * 22%), transparent), transparent 70%);
+    }
+
+    /* Desenho de fundo (circuitos / rede), na cor de destaque */
+    html[data-fundo='circuitos'] body::after,
+    html[data-fundo='rede'] body::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background-color: var(--tema-destaque);
+        opacity: calc(var(--tema-brilho) * 0.16);
+        mask-image: var(--fundo-circuitos), linear-gradient(to bottom, black, transparent 65%);
+        mask-composite: intersect;
+        mask-size: 200px, 100% 100%;
+    }
+
+    html[data-fundo='rede'] body::after {
+        mask-image: var(--fundo-rede), linear-gradient(to bottom, black, transparent 65%);
+        mask-size: 180px, 100% 100%;
+    }
+
+    h1,
+    h2 {
+        font-family: var(--font-titulo);
+        letter-spacing: 0.02em;
+    }
+
+    ::selection {
+        background: color-mix(in oklab, var(--tema-destaque) 45%, transparent);
+        color: var(--tema-texto);
     }
 
     [x-cloak] {
@@ -43,13 +221,13 @@
 @layer components {
     /* Campos de formulário */
     .campo {
-        @apply block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 shadow-xs
-            placeholder:text-zinc-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 focus:outline-none
+        @apply block w-full rounded-lg border border-zinc-300 bg-zinc-50 px-3 py-2 text-sm text-zinc-900 shadow-xs
+            placeholder:text-zinc-400 focus:border-brand-600 focus:ring-2 focus:ring-brand-600/25 focus:outline-none
             disabled:cursor-not-allowed disabled:bg-zinc-100 disabled:text-zinc-500;
     }
 
     .campo-erro {
-        @apply border-red-400 focus:border-red-500 focus:ring-red-500/20;
+        @apply border-red-400 focus:border-red-600 focus:ring-red-600/25;
     }
 
     .rotulo {
@@ -58,7 +236,7 @@
 
     /* Cartões */
     .cartao {
-        @apply rounded-xl border border-zinc-200 bg-white shadow-xs;
+        @apply rounded-xl border border-zinc-200 bg-superficie/90 shadow-xs backdrop-blur-sm;
     }
 
     /* Tabelas */
@@ -67,7 +245,7 @@
     }
 
     .tabela thead th {
-        @apply bg-zinc-50 px-4 py-3 text-left text-xs font-semibold tracking-wide whitespace-nowrap text-zinc-500 uppercase;
+        @apply bg-zinc-50 px-4 py-3 text-left font-mono text-[11px] font-bold tracking-wider whitespace-nowrap text-zinc-500 uppercase;
     }
 
     .tabela tbody td {
@@ -75,11 +253,50 @@
     }
 
     .tabela tbody tr {
-        @apply hover:bg-zinc-50/70;
+        @apply hover:bg-zinc-100/60;
     }
 
     /* Links de texto */
     .link {
         @apply font-medium text-brand-700 hover:text-brand-900 hover:underline;
+    }
+
+    /* ---- Elementos do tema ---- */
+
+    /* Rótulo em caixa alta e monoespaçado ("INSCRIÇÕES ABERTAS") */
+    .rotulo-mono {
+        @apply font-mono text-xs font-bold tracking-[0.2em] uppercase;
+    }
+
+    /* Texto com brilho neon */
+    .neon {
+        text-shadow:
+            0 0 6px color-mix(in oklab, var(--tema-destaque) 55%, transparent),
+            0 0 24px color-mix(in oklab, var(--tema-destaque) 35%, transparent);
+    }
+
+    .neon-claro {
+        text-shadow:
+            0 0 8px color-mix(in oklab, var(--tema-texto) 45%, transparent),
+            0 0 22px color-mix(in oklab, var(--tema-destaque) 40%, transparent);
+    }
+
+    /* Logo SVG com brilho */
+    .logo-neon {
+        filter: drop-shadow(0 0 4px color-mix(in oklab, var(--tema-destaque) 70%, transparent))
+            drop-shadow(0 0 12px color-mix(in oklab, var(--tema-destaque) 40%, transparent));
+    }
+
+    /* Borda com brilho (botão primário, cartões em destaque) */
+    .brilho {
+        box-shadow:
+            0 0 0 1px color-mix(in oklab, var(--tema-destaque) 60%, transparent),
+            0 0 18px -2px color-mix(in oklab, var(--tema-destaque) 55%, transparent);
+    }
+
+    /* Linha divisória que some nas pontas */
+    .divisor-neon {
+        @apply h-px w-full;
+        background: linear-gradient(90deg, transparent, var(--tema-destaque), transparent);
     }
 }
